@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – Cooperativa Olivicola{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <p>Resumen general del sistema de gestion olivicola</p>
+</div>
+
+<div class="stats-grid">
+    <div class="card stat-card">
+        <div class="stat-value">{{ total_productores }}</div>
+        <div class="stat-label">Productores</div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-value">{{ total_lotes_mp }}</div>
+        <div class="stat-label">Lotes de Materia Prima</div>
+        <div class="stat-badges">
+            <span class="badge badge-ingresado">{{ lotes_mp_ingresados }} ingresados</span>
+            <span class="badge badge-analizado">{{ lotes_mp_analizados }} analizados</span>
+            <span class="badge badge-asignado">{{ lotes_mp_asignados }} asignados</span>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-value">{{ total_lotes_produccion }}</div>
+        <div class="stat-label">Lotes de Produccion</div>
+        <div class="stat-badges">
+            <span class="badge badge-armado">{{ lotes_produccion_armado }} en armado</span>
+            <span class="badge badge-finalizado">{{ lotes_produccion_finalizado }} finalizados</span>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-value">{{ total_productos_finales }}</div>
+        <div class="stat-label">Productos Finales</div>
+    </div>
+</div>
+
+<div class="link-cards">
+    <a class="card card-accent link-card" href="{% url 'lista_lotes' %}">
+        <div class="link-card-title">Lotes de Materia Prima</div>
+        <div class="link-card-desc">Consultar listado de lotes recibidos</div>
+        <div class="link-card-action">Ver listado &rarr;</div>
+    </a>
+    <a class="card card-accent link-card" href="{% url 'lista_produccion' %}">
+        <div class="link-card-title">Lotes de Produccion</div>
+        <div class="link-card-desc">Consultar lotes de produccion de aceite</div>
+        <div class="link-card-action">Ver listado &rarr;</div>
+    </a>
+</div>
+{% endblock %}

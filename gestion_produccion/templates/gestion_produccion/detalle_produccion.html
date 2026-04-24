@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Lote Produccion {{ lote_p.codigo_seguimiento }}{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'lista_produccion' %}">&larr; Volver a lotes de produccion</a>
+
+<div class="page-header-row">
+    <div>
+        <h1>Lote Produccion {{ lote_p.codigo_seguimiento }}</h1>
+        <p>Detalle del lote de produccion</p>
+    </div>
+    <span class="badge badge-{{ lote_p.estado|lower }}">{{ lote_p.get_estado_display }}</span>
+</div>
+
+<div class="detail-grid">
+    <div class="detail-stack">
+        <div class="card card-body">
+            <h2 class="section-title">Lotes de Materia Prima ({{ lote_p.lotes_materia_prima.count }})</h2>
+            <table class="table-inline">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Productor</th>
+                        <th>Fecha cosecha</th>
+                        <th>Peso neto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for materia in lote_p.lotes_materia_prima.all %}
+                    <tr>
+                        <td class="mono">#{{ materia.codigo }}</td>
+                        <td>{{ materia.productor.nombre }} {{ materia.productor.apellidos }}</td>
+                        <td>{{ materia.fecha_cosecha }}</td>
+                        <td>{{ materia.peso_neto }} kg</td>
+                        <td><span class="badge badge-{{ materia.estado|lower }}">{{ materia.get_estado_display }}</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">Sin lotes asociados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if lote_p.lotes_materia_prima.count %}
+            <div class="subtotal">Peso total neto: <strong>{{ lote_p.peso_total_neto }} kg</strong></div>
+            {% endif %}
+        </div>
+
+        <div class="card card-body">
+            <h2 class="section-title">Productos Finales ({{ lote_p.productos_finales.count }})</h2>
+            <table class="table-inline">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in lote_p.productos_finales.all %}
+                    <tr>
+                        <td><strong>{{ producto.nombre }}</strong></td>
+                        <td>{{ producto.get_tipo_display }}</td>
+                        <td>{{ producto.cantidad }}</td>
+                        <td>{{ producto.get_unidad_display }}</td>
+                        <td>{{ producto.descripcion|default:"-" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">Sin productos finales registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card card-body">
+        <h2 class="section-title">Informacion</h2>
+        <div class="info-list">
+            <div class="info-row">
+                <span class="info-label">Codigo</span>
+                <span class="info-value mono">{{ lote_p.codigo_seguimiento }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Fecha creacion</span>
+                <span class="info-value">{{ lote_p.fecha_creacion }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Estado</span>
+                <span class="info-value"><span class="badge badge-{{ lote_p.estado|lower }}">{{ lote_p.get_estado_display }}</span></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Lotes MP</span>
+                <span class="info-value">{{ lote_p.lotes_materia_prima.count }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Productos finales</span>
+                <span class="info-value">{{ lote_p.productos_finales.count }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Peso total neto</span>
+                <span class="info-value">{{ lote_p.peso_total_neto }} kg</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Lotes de Materia Prima{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Lotes de Materia Prima</h1>
+    <p>Consulta de lotes de olivas recibidas</p>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Productor</th>
+                <th>Fecha cosecha</th>
+                <th>Peso bruto</th>
+                <th>Peso tara</th>
+                <th>Peso neto</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lote in lotes %}
+            <tr>
+                <td class="mono">#{{ lote.codigo }}</td>
+                <td>{{ lote.productor.nombre }} {{ lote.productor.apellidos }}</td>
+                <td>{{ lote.fecha_cosecha }}</td>
+                <td>{{ lote.peso_bruto }} kg</td>
+                <td>{{ lote.peso_tara }} kg</td>
+                <td><strong>{{ lote.peso_neto }} kg</strong></td>
+                <td><span class="badge badge-{{ lote.estado|lower }}">{{ lote.get_estado_display }}</span></td>
+                <td><a href="{% url 'detalle_lote' lote.id %}">Ver detalle</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" class="empty">No hay lotes de materia prima registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

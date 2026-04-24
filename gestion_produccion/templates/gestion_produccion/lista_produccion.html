@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Lotes de Produccion{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Lotes de Produccion</h1>
+    <p>Consulta de lotes de produccion de aceite y oliva de mesa</p>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Fecha creacion</th>
+                <th>Estado</th>
+                <th>Lotes MP</th>
+                <th>Productos finales</th>
+                <th>Peso neto total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lote in lotes %}
+            <tr>
+                <td class="mono">{{ lote.codigo_seguimiento }}</td>
+                <td>{{ lote.fecha_creacion }}</td>
+                <td><span class="badge badge-{{ lote.estado|lower }}">{{ lote.get_estado_display }}</span></td>
+                <td>{{ lote.lotes_materia_prima.count }}</td>
+                <td>{{ lote.productos_finales.count }}</td>
+                <td><strong>{{ lote.peso_total_neto }} kg</strong></td>
+                <td><a href="{% url 'detalle_produccion' lote.id %}">Ver detalle</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="empty">No hay lotes de produccion registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Lote #{{ lote.codigo }}{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'lista_lotes' %}">&larr; Volver a lotes de materia prima</a>
+
+<div class="page-header-row">
+    <div>
+        <h1>Lote #{{ lote.codigo }}</h1>
+        <p>Detalle del lote de materia prima</p>
+    </div>
+    <span class="badge badge-{{ lote.estado|lower }}">{{ lote.get_estado_display }}</span>
+</div>
+
+<div class="detail-grid">
+    <div class="detail-stack">
+        <div class="card card-body">
+            <h2 class="section-title">Informacion general</h2>
+            <div class="info-list">
+                <div class="info-row">
+                    <span class="info-label">Codigo</span>
+                    <span class="info-value mono">{{ lote.codigo }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Productor</span>
+                    <span class="info-value">{{ lote.productor.nombre }} {{ lote.productor.apellidos }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">NIF</span>
+                    <span class="info-value">{{ lote.productor.nif }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Fecha cosecha</span>
+                    <span class="info-value">{{ lote.fecha_cosecha }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Fecha arribo</span>
+                    <span class="info-value">{{ lote.fecha_arribo }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body">
+            <h2 class="section-title">Pesaje</h2>
+            <div class="metric-row">
+                <div class="metric-item">
+                    <div class="metric-value">{{ lote.peso_bruto }} kg</div>
+                    <div class="metric-label">Peso bruto</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-value">{{ lote.peso_tara }} kg</div>
+                    <div class="metric-label">Tara</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-value highlight">{{ lote.peso_neto }} kg</div>
+                    <div class="metric-label">Peso neto</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-body">
+        <h2 class="section-title">Resultados de analisis</h2>
+        {% if analisis_list %}
+            {% for analisis in analisis_list %}
+            <div class="analysis-item">
+                <div class="analysis-tipo">{{ analisis.tipo_analisis }}</div>
+                <div class="analysis-fecha">{{ analisis.fecha_hora }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-state">Sin resultados registrados.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
