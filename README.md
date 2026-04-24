@@ -1,7 +1,5 @@
 # Proyecto Final MDSS - Cooperativa Olivicola
 
-Proyecto Django para la gestion de una cooperativa olivicola: productores, lotes de materia prima, lotes de produccion y productos finales.
-
 ## Ejecucion con Docker
 
 ```bash
