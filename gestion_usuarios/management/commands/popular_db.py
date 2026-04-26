@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 nombre='Aceite Virgen Extra',
                 cantidad=Decimal('1500.00'),
                 unidad='L',
-                descripcion='Producto final principal obtenido del lote de produccion.',
+                descripcion='Aceite virgen extra campaña 2024.',
             )
 
             ProductoFinal.objects.create(
@@ -89,7 +89,7 @@ class Command(BaseCommand):
                 nombre='Aceituna de Mesa Seleccion',
                 cantidad=Decimal('300.00'),
                 unidad='KG',
-                descripcion='Producto final secundario destinado a comercializacion.',
+                descripcion='Aceituna seleccionada para venta directa.',
             )
 
         self.stdout.write(
