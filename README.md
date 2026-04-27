@@ -20,7 +20,7 @@ docker compose exec web python manage.py popular_db
 
 ## URLs
 
-- `/` — Dashboard
+- `http://localhost:8000` — Dashboard
 - `/materia-prima/lotes/` — Lotes de materia prima
 - `/produccion/` — Lotes de produccion
 - `/admin/` — Administracion
