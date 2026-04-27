@@ -33,7 +33,7 @@ docker compose exec web python manage.py popular_db
 ```bash
 New-Item .env_local -ItemType File
 
-DEBUG=True
+DEBUG=1
 SECRET_KEY=django-insecure-local-key
 POSTGRES_DB=oliva_db
 POSTGRES_USER=oliva_user
