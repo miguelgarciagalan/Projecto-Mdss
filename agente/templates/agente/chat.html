@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Agente – Cooperativa Olivicola{% endblock %}
+
+{% block content %}
+<div class="chat-layout">
+    <div class="chat-header">
+        <h1>Asistente de la Cooperativa</h1>
+        <a href="{% url 'nueva_conversacion' %}" class="btn-secondary">Nueva conversacion</a>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+        {% for msg in mensajes %}
+        <div class="chat-msg {{ msg.rol }}">
+            <div class="chat-bubble">{{ msg.contenido }}</div>
+            {% if msg.tools_usadas %}
+            <div class="chat-tools">tools: {{ msg.tools_usadas }}</div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="chat-empty">Escribe una pregunta para empezar</div>
+        {% endfor %}
+    </div>
+
+    <form class="chat-form" id="chat-form" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" id="chat-input" placeholder="¿En qué puedo ayudarte?" />
+        <button type="submit" id="chat-btn">Enviar</button>
+    </form>
+</div>
+
+<script>
+const form = document.getElementById('chat-form');
+const input = document.getElementById('chat-input');
+const btn = document.getElementById('chat-btn');
+const box = document.getElementById('chat-messages');
+const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const texto = input.value.trim();
+    if (!texto) return;
+
+    input.value = '';
+    btn.disabled = true;
+
+    const empty = box.querySelector('.chat-empty');
+    if (empty) empty.remove();
+
+    addMsg('user', texto);
+    const thinking = addMsg('agent', 'Pensando...', [], true);
+
+    try {
+        const resp = await fetch("{% url 'enviar_mensaje' %}", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrf},
+            body: JSON.stringify({mensaje: texto}),
+        });
+        const data = await resp.json();
+        thinking.remove();
+        if (data.error) {
+            addMsg('agent', 'Error: ' + data.error);
+        } else {
+            addMsg('agent', data.respuesta, data.tools_usadas || []);
+        }
+    } catch (err) {
+        thinking.remove();
+        addMsg('agent', 'Error al conectar con el agente.');
+    }
+
+    btn.disabled = false;
+    input.focus();
+});
+
+function addMsg(rol, contenido, tools = [], thinking = false) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + rol + (thinking ? ' chat-thinking' : '');
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = contenido;
+    div.appendChild(bubble);
+
+    if (tools && tools.length) {
+        const t = document.createElement('div');
+        t.className = 'chat-tools';
+        t.textContent = 'tools: ' + tools.join(', ');
+        div.appendChild(t);
+    }
+
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+    return div;
+}
+
+box.scrollTop = box.scrollHeight;
+</script>
+{% endblock %}

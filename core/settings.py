@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'gestion_usuarios',
     'gestion_materia_prima',
     'gestion_produccion',
+    'agente',
     'rest_framework',
     'django_filters',
     'drf_yasg',

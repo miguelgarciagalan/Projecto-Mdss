@@ -152,6 +152,50 @@
         .empty-state { color: #bbb; font-size: 0.88rem; text-align: center; padding: 1.5rem 0; }
 
         a { color: #2c5f2e; }
+
+        .chat-layout { display: flex; flex-direction: column; height: calc(100vh - 56px - 4rem); }
+        .chat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .chat-header h1 { font-size: 1.6rem; }
+        .btn-secondary {
+            font-size: 0.82rem; padding: 0.4rem 0.9rem; border-radius: 4px;
+            border: 1px solid #ccc; background: white; color: #555;
+            text-decoration: none; cursor: pointer;
+        }
+        .btn-secondary:hover { background: #f5f5f5; color: #333; }
+
+        .chat-messages {
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column;
+            gap: 0.75rem; padding: 1rem; background: white;
+            border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            margin-bottom: 1rem; min-height: 0;
+        }
+        .chat-msg { display: flex; flex-direction: column; max-width: 78%; }
+        .chat-msg.user { align-self: flex-end; align-items: flex-end; }
+        .chat-msg.agent { align-self: flex-start; align-items: flex-start; }
+        .chat-bubble {
+            padding: 0.65rem 1rem; border-radius: 12px;
+            font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+        }
+        .chat-msg.user .chat-bubble { background: #2c5f2e; color: white; border-bottom-right-radius: 3px; }
+        .chat-msg.agent .chat-bubble { background: #f0f2f0; color: #222; border-bottom-left-radius: 3px; }
+        .chat-tools { font-size: 0.72rem; color: #aaa; margin-top: 0.2rem; padding: 0 0.25rem; }
+        .chat-empty { color: #bbb; font-size: 0.9rem; text-align: center; margin: auto; }
+        .chat-thinking .chat-bubble { color: #aaa; font-style: italic; }
+
+        .chat-form {
+            display: flex; gap: 0.5rem;
+        }
+        .chat-form input {
+            flex: 1; padding: 0.65rem 1rem; border: 1px solid #ddd;
+            border-radius: 6px; font-size: 0.9rem; outline: none;
+        }
+        .chat-form input:focus { border-color: #2c5f2e; }
+        .chat-form button {
+            padding: 0.65rem 1.4rem; background: #2c5f2e; color: white;
+            border: none; border-radius: 6px; font-size: 0.9rem; cursor: pointer;
+        }
+        .chat-form button:hover { background: #245026; }
+        .chat-form button:disabled { background: #aaa; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -160,6 +204,7 @@
         <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
         <a class="nav-link {% if 'lote' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'lista_lotes' %}">Materia Prima</a>
         <a class="nav-link {% if 'produccion' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'lista_produccion' %}">Produccion</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'chat' %}active{% endif %}" href="{% url 'chat' %}">Agente</a>
         <span class="nav-spacer"></span>
         <a class="nav-link" href="/admin/">Admin</a>
         <a class="nav-link" href="/api/swagger/">API Docs</a>
