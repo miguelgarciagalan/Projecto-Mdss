@@ -28,18 +28,4 @@ docker compose exec web python manage.py popular_db
 - `/api/token/` — Obtener token JWT
 
 
-## Env_local
-
-```bash
-New-Item .env_local -ItemType File
-
-DEBUG=1
-SECRET_KEY=django-insecure-local-key
-POSTGRES_DB=oliva_db
-POSTGRES_USER=oliva_user
-POSTGRES_PASSWORD=oliva_password
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-```
-
 
